@@ -5,6 +5,10 @@
   		exampleSocket.send("Here's some text that the server is urgently awaiting!");
 	};
 
+	exampleSocket.onmessage = function (event) {
+  		console.log(event.data);
+	};
+
 	export let name;
 	let getCurTemp = 'http://192.168.0.155:3000/getCurTemp';
 	let getSetPoint = 'http://192.168.0.155:3000/getSetPoint';
