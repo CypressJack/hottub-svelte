@@ -1,6 +1,6 @@
 <script>
 	import { onMount } from "svelte";
-	import WebSocket from 'ws';
+	// import WebSocket from 'ws';
 	// const ws = new WebSocket('ws://192.168.0.155:3005');
 
 	// ws.on('open', function open() {
