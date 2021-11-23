@@ -27,8 +27,12 @@
 		}
 	};
 
-	function setSetPoint(){
-		exampleSocket.send(JSON.stringify({setPoint: 80}));
+	function setPointUp(){
+		exampleSocket.send(JSON.stringify('setPointUp'));
+	}
+
+	function setPointDown(){
+		exampleSocket.send(JSON.stringify('setPointDown'));
 	}
 
 	export let name;
@@ -40,7 +44,8 @@
 	<p>Visit the <a href="https://svelte.dev/tutorial">Svelte tutorial</a> to learn how to build Svelte apps.</p>
 	<p>Temp = {data.currentTemp}</p>
 	<p>SetPoint = {data.setPoint}</p>
-	<button on:click={setSetPoint}>Set Temp to 80</button>
+	<button on:click={setPointUp}>SetPoint up</button>
+	<button on:click={setPointDown}>SetPoint down</button>
 </main>
 
 <style>
