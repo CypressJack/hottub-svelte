@@ -17,7 +17,7 @@ wss.on('connection', function connection(ws) {
     ws.send(sendData);
     ws.on('message', function incoming(message) {
         const res = JSON.parse(message);
-        console.log(`received message: '${message}'`);
+        console.log(`received message: '${res}'`);
         if (res.setPoint) {
             setPoint = res.setPoint;
         }
