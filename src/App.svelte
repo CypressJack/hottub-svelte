@@ -1,9 +1,9 @@
 <script>
 	import { onMount } from "svelte";
 	export let name;
-	let getCurTemp = 'http://localhost:3000/getCurTemp';
-	let getSetPoint = 'http://localhost:3000/getSetPoint';
-	let changeSetPoint = 'http://localhost:3000/changeSetPoint';
+	let getCurTemp = 'http://192.168.0.155:3000/getCurTemp';
+	let getSetPoint = 'http://192.168.0.155:3000/getSetPoint';
+	let changeSetPoint = 'http://192.168.0.155:3000/changeSetPoint';
 
 	let curTemp;
 	let setPoint;
