@@ -20,8 +20,10 @@
   },
   "dependencies": {
     "cors": "^2.8.5",
+    "ds18b20": "^0.1.0",
     "easytimer.js": "^4.5.1",
     "express": "^4.17.1",
+    "rpio": "^2.4.2",
     "sirv-cli": "^1.0.0"
   }
 }
