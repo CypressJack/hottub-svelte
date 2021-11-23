@@ -20,7 +20,7 @@ wss.on('connection', function connection(ws) {
         console.log(`received message:`, res);
         if (res.setPoint) {
             setPoint = res.setPoint;
-            ws.send(JSON.stringify(setPoint));
+            ws.send(JSON.stringify({'setPoint': setPoint}));
         }
     });
     ws.send(JSON.stringify(`message received from Node!`));
