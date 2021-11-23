@@ -1,70 +1,39 @@
 <script>
 	import { onMount } from "svelte";
 	const exampleSocket = new WebSocket('ws://192.168.0.155:3005');
+
+	let data = {
+		currentTemp,
+		setPoint,
+	}
+
 	exampleSocket.onopen = function (event) {
   		exampleSocket.send("Here's some text that the server is urgently awaiting!");
 	};
 
 	exampleSocket.onmessage = function (event) {
+		const res = JSON.parse(event.data);
   		console.log(event.data);
+		if (res.currentTemp && res.setPoint) {
+			data.currentTemp = res.currentTemp;
+			data.setPoint = res.setPoint;
+		}
 	};
 
+	function setSetPoint(){
+		exampleSocket.send(JSON.stringify({setPoint: 80}));
+	}
+
 	export let name;
-	let getCurTemp = 'http://192.168.0.155:3000/getCurTemp';
-	let getSetPoint = 'http://192.168.0.155:3000/getSetPoint';
-	let changeSetPoint = 'http://192.168.0.155:3000/changeSetPoint';
 
-	let curTemp;
-	let setPoint;
-
-	async function fetchData() {
-		await fetch(getCurTemp)
-		.then(r => {
-			return r.json();
-		})
-		.then(data => {
-			console.log(data);
-			curTemp = data;
-		})
-	}
-
-	async function getSetpoint() {
-		await fetch(getSetPoint)
-		.then(r => {
-			return r.json();
-		})
-		.then(data => {
-			console.log(data);
-			setPoint = data;
-		})
-	}
-
-	async function setTemp() {
-		await fetch(changeSetPoint,
-		{
-			method: 'POST',
-			headers: {
-      			'Content-Type': 'application/json'
-			},
-			body: JSON.stringify(80)
-		})
-		.then(r => {
-			return r.json();
-		})
-		.then(data => {
-			console.log(data);
-		})
-	}
-	onMount(fetchData);
-	onMount(getSetpoint);
 </script>
 
 <main>
 	<h1>Hello {name}!</h1>
 	<p>Visit the <a href="https://svelte.dev/tutorial">Svelte tutorial</a> to learn how to build Svelte apps.</p>
-	<p>Temp = {curTemp}</p>
-	<p>SetPoint = {setPoint}</p>
-	<button on:click={setTemp}>Set Temp to 80</button>
+	<p>Temp = {data.currentTemp}</p>
+	<p>SetPoint = {data.setPoint}</p>
+	<button on:click={setSetPoint}>Set Temp to 80</button>
 </main>
 
 <style>

@@ -6,12 +6,23 @@ const port = 3000;
 const WebSocket = require('ws');
 const wss = new WebSocket.Server({ port: 3005 });
 
+let setPoint = 78;
+let status;
+
 wss.on('connection', function connection(ws) {
+    const sendData = JSON.stringify({
+		currentTemp: 65,
+		setPoint: 78,
+	});
+    ws.send(sendData);
     ws.on('message', function incoming(message) {
-      console.log('received: %s', message);
+        const res = JSON.parse(message);
+        console.log(`received message: '${message}'`);
+        if (res.setPoint) {
+            setPoint = res.setPoint;
+        }
     });
-  
-    ws.send('Socket connected from Node');
+    ws.send(`message received from Node! ${res}`);
 });
 
 // Controller config
@@ -22,8 +33,6 @@ const { Timer } = require("easytimer.js");
 // Control logic
 const sensorId = '28-011937c40830';
 const runningTime = new Timer();
-let setPoint = 78;
-let status;
 
 // Initialize GPIO pin as low
 rpio.open(11, rpio.OUTPUT, rpio.LOW);
