@@ -29,7 +29,7 @@ wss.on('connection', function connection(ws) {
         const curTempC = ds18b20.temperatureSync(sensorId);
         const curTempF = ( curTempC * (9/5) ) + 32;
         ws.send(JSON.stringify({'currentTemp': curTempF}));
-    }, 1000);
+    }, 250);
 
 
 

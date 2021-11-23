@@ -13,7 +13,6 @@
 
 	exampleSocket.onmessage = function (event) {
 		const res = JSON.parse(event.data);
-  		console.log(event.data);
 		if (res.currentTemp && res.setPoint) {
 			data.currentTemp = res.currentTemp;
 			data.setPoint = res.setPoint;
