@@ -18,12 +18,12 @@ wss.on('connection', function connection(ws) {
     ws.on('message', function incoming(message) {
         const res = JSON.parse(message);
         console.log(`received message:`, res);
-        if (res = 'setPointDown') {
+        if (res === 'setPointDown') {
             setPoint--;
             ws.send(JSON.stringify({'setPoint': setPoint}));
         }
 
-        if (res = 'setPointUp') {
+        if (res === 'setPointUp') {
             setPoint++;
             ws.send(JSON.stringify({'setPoint': setPoint}));
         }
