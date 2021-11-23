@@ -1,7 +1,9 @@
 <script>
 	import { onMount } from "svelte";
 	const exampleSocket = new WebSocket('ws://192.168.0.155:3005');
-	exampleSocket.send("Here's some text that the server is urgently awaiting!");
+	exampleSocket.onopen = function (event) {
+  		exampleSocket.send("Here's some text that the server is urgently awaiting!");
+	};
 
 	export let name;
 	let getCurTemp = 'http://192.168.0.155:3000/getCurTemp';
