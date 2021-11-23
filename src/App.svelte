@@ -1,15 +1,15 @@
 <script>
 	import { onMount } from "svelte";
 	import WebSocket from 'ws';
-	const ws = new WebSocket('ws://192.168.0.155:3005');
+	// const ws = new WebSocket('ws://192.168.0.155:3005');
 
-	ws.on('open', function open() {
-  		ws.send('Socket connection from svelte');
-	});
+	// ws.on('open', function open() {
+  	// 	ws.send('Socket connection from svelte');
+	// });
 
-	ws.on('message', function incoming(message) {
-  		console.log('received: %s', message);
-	});
+	// ws.on('message', function incoming(message) {
+  	// 	console.log('received: %s', message);
+	// });
 
 
 	export let name;
