@@ -22,7 +22,7 @@ wss.on('connection', function connection(ws) {
             setPoint = res.setPoint;
         }
     });
-    ws.send(`message received from Node! ${res}`);
+    ws.send(`message received from Node!`);
 });
 
 // Controller config
