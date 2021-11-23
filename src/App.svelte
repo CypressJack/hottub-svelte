@@ -3,8 +3,8 @@
 	const exampleSocket = new WebSocket('ws://192.168.0.155:3005');
 
 	let data = {
-		currentTemp,
-		setPoint,
+		currentTemp: undefined,
+		setPoint: undefined,
 	}
 
 	exampleSocket.onopen = function (event) {
