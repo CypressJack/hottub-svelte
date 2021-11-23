@@ -3,6 +3,16 @@ const express = require('express');
 const app = express();
 const cors = require('cors');
 const port = 3000;
+const WebSocket = require('ws');
+const wss = new WebSocket.Server({ port: 3005 });
+
+wss.on('connection', function connection(ws) {
+    ws.on('message', function incoming(message) {
+      console.log('received: %s', message);
+    });
+  
+    ws.send('Socket connected from Node');
+});
 
 // Controller config
 const rpio = require('rpio');
@@ -23,8 +33,6 @@ const tempLoop = setInterval(manageTemp, 1000);
 function manageTemp() {
     const curTempC = ds18b20.temperatureSync(sensorId);
     const curTempF = ( curTempC * (9/5) ) + 32;
-
-    console.log('Temp Fahrenheit = ', curTempF);
 
     // Check to make sure temp isn't too high & turn off
     if (curTempF > 105) {
@@ -48,7 +56,6 @@ function manageTemp() {
         runningTime.start();
     }
 
-    console.log('rpio pin status = ', status);
 }
 
 // Express Server
