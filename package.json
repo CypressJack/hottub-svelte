@@ -5,7 +5,8 @@
   "scripts": {
     "build": "rollup -c",
     "dev": "rollup -c -w",
-    "start": "sirv public --no-clear --host"
+    "start": "sirv public --no-clear --host",
+    "server": "node control/controlTest.js"
   },
   "devDependencies": {
     "@rollup/plugin-commonjs": "^17.0.0",
@@ -18,9 +19,9 @@
     "svelte": "^3.0.0"
   },
   "dependencies": {
-    "ds18b20": "^0.1.0",
+    "cors": "^2.8.5",
     "easytimer.js": "^4.5.1",
-    "rpio": "^2.4.2",
+    "express": "^4.17.1",
     "sirv-cli": "^1.0.0"
   }
 }
