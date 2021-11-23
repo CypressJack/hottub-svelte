@@ -18,6 +18,10 @@
 			data.currentTemp = res.currentTemp;
 			data.setPoint = res.setPoint;
 		}
+
+		if (res.setPoint && !res.currentTemp) {
+			data.setPoint = res.setPoint;
+		}
 	};
 
 	function setSetPoint(){
