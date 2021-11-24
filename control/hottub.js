@@ -160,7 +160,8 @@ function manageTemp() {
         rpio.write(12, rpio.LOW);
         jetTimer.reset();
     }
-
+    console.log('Jet time', jetTimer.getTotalTimeValues().seconds);
+    console.log('Pump time', pumpTimer.getTotalTimeValues().seconds);
 }
 
 app.listen(port, () => {
