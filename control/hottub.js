@@ -54,7 +54,7 @@ wss.on('connection', function connection(ws) {
     ws.send(JSON.stringify(`message received from Node!`));
 
     const tempStream = setInterval(() => {
-        ds18b20.temperature('10-00080283a977', function(err, value) {
+        ds18b20.temperature('28-011937c40830', function(err, value) {
             const curTempF = ( value * (9/5) ) + 32;
             ws.send(JSON.stringify({'currentTemp': curTempF}));
         });
