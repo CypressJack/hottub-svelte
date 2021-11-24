@@ -71,7 +71,7 @@ wss.on('connection', function connection(ws) {
             const data = {
                 'jetSeconds': `${jetsRunningTime.seconds}`
             }
-             ws.send(JSON.stringify({data}));
+             ws.send(JSON.stringify(data));
             jetTimerBool = true;
         }
         // Send a zero once the timer stops running
@@ -79,7 +79,7 @@ wss.on('connection', function connection(ws) {
             const data = {
                 'jetSeconds': '0'
             }
-             ws.send(JSON.stringify({data}));
+             ws.send(JSON.stringify(data));
         }
         // Send jets timer data
         if (runningTime.isRunning()) {
@@ -160,8 +160,6 @@ function manageTemp() {
         rpio.write(12, rpio.LOW);
         jetTimer.reset();
     }
-    console.log('Jet time', jetTimer.getTotalTimeValues().seconds);
-    console.log('Pump time', runningTime.getTotalTimeValues().seconds);
 }
 
 app.listen(port, () => {
