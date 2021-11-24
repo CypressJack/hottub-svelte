@@ -27,6 +27,7 @@ wss.on('connection', function connection(ws) {
     const sendData = JSON.stringify({
 		currentTemp: null,
 		setPoint: null,
+        jets: false
 	});
     ws.send(sendData);
     ws.on('message', function incoming(message) {
@@ -46,15 +47,17 @@ wss.on('connection', function connection(ws) {
         // Turn jets on
         if (res === 'jetsOn') {
             jets = true;
+            ws.send(JSON.stringify({'jets': 'jetsOn'}));
         }
         // Turn jets off
-        if (res === 'jetsoff') {
+        if (res === 'jetsOff') {
             jets = false;
+            ws.send(JSON.stringify({'jets': 'jetsOff'}));
         }
     });
     ws.send(JSON.stringify(`message received from Node!`));
 
-    const tempStream = setInterval(() => {
+    const dataStream = setInterval(() => {
         ds18b20.temperature('28-011937c40830', function(err, value) {
             const curTempF = ( value * (9/5) ) + 32;
             ws.send(JSON.stringify({'currentTemp': curTempF}));
@@ -63,8 +66,8 @@ wss.on('connection', function connection(ws) {
 
     // Handle websocket close
     ws.on('close', function close() {
-        clearInterval(tempStream);
-        console.log('disconnected');
+        clearInterval(dataStream);
+        console.log('Client disconnected');
       });
 });
 
