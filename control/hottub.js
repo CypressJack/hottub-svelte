@@ -67,7 +67,7 @@ wss.on('connection', function connection(ws) {
 
         // Send jets timer data
         if (jetTimer.isRunning()) {
-            const jetsRunningTime = jetTimer.getTotalTimeValues();
+            const jetsRunningTime = jetTimer.getTimeValues();
             const data = {
                 'jetSeconds': `${jetsRunningTime.seconds}`
             }
@@ -83,7 +83,7 @@ wss.on('connection', function connection(ws) {
         }
         // Send pump timer data
         if (runningTime.isRunning()) {
-            const pumpRunningTime = runningTime.getTotalTimeValues();
+            const pumpRunningTime = runningTime.getTimeValues();
             const data = {
                 'pumpSeconds': `${pumpRunningTime.seconds}`
             }

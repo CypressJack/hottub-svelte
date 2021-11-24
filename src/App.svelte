@@ -95,7 +95,7 @@
 	<p>Jets = {data.jets ? 'Jets are on' : 'Jets are off'}</p>
 	<button on:click={setPointUp}>SetPoint up</button>
 	<button on:click={setPointDown}>SetPoint down</button>
-	<button on:click={operateJets}>Turn jets {data.jets ? 'on' : 'off'}</button>
+	<button on:click={operateJets}>Turn jets {data.jets ? 'off' : 'on'}</button>
 </main>
 
 <style>
