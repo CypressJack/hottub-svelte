@@ -26,8 +26,8 @@ let status;
 wss.on('connection', function connection(ws) {
     const sendData = JSON.stringify({
 		currentTemp: null,
-		setPoint: null,
-        jets: false
+		setPoint: setPoint,
+        jets: jets
 	});
     ws.send(sendData);
     ws.on('message', function incoming(message) {
@@ -110,7 +110,7 @@ function manageTemp() {
 
     // Start jets if they're not on
     if (jets && !rpio.read(12)) {
-        rpio.write(11, rpio.HIGH);
+        rpio.write(12, rpio.HIGH);
         jetTimer.start();
     }
 
