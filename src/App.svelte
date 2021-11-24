@@ -6,7 +6,9 @@
 	let data = {
 		currentTemp: null,
 		setPoint: null,
-		jets: null
+		jets: null,
+		jetSeconds: '0',
+		pumpSeconds: '0'
 	}
 
 	// Open socket
@@ -27,12 +29,18 @@
 		if (res.currentTemp) {
 			data.currentTemp = res.currentTemp;
 		}
-
+		// Set pump running time
+		if (res.pumpSeconds) {
+			data.pumpSeconds = res.pumpSeconds;
+		}
+		// Set jet running time
+		if (res.jetSeconds) {
+			data.jetSeconds = res.jetSeconds;
+		}
 		// Assign jets status
 		if (res.jets && res.jets === 'jetsOn') {
 			data.jets = true;
 		}
-
 		// Assign jets status
 		if (res.jets && res.jets === 'jetsOff') {
 			data.jets = false;
@@ -60,6 +68,19 @@
 		}
 	}
 
+	// String display helper function
+	String.prototype.toHHMMSS = function () {
+    	var sec_num = parseInt(this, 10); // don't forget the second param
+    	var hours   = Math.floor(sec_num / 3600);
+    	var minutes = Math.floor((sec_num - (hours * 3600)) / 60);
+    	var seconds = sec_num - (hours * 3600) - (minutes * 60);
+
+    	if (hours   < 10) {hours   = "0"+hours;}
+    	if (minutes < 10) {minutes = "0"+minutes;}
+    	if (seconds < 10) {seconds = "0"+seconds;}
+    	return hours + ':' + minutes + ':' + seconds;
+	}
+
 	export let name;
 
 </script>
@@ -69,10 +90,12 @@
 	<p>Visit the <a href="https://svelte.dev/tutorial">Svelte tutorial</a> to learn how to build Svelte apps.</p>
 	<p>Temp = {data.currentTemp}</p>
 	<p>SetPoint = {data.setPoint}</p>
+	<p>Jets Running Time = {data.jetSeconds.toHHMMSS()}</p>
+	<p>Pump Running Time = {data.pumpSeconds.toHHMMSS()}</p>
 	<p>Jets = {data.jets ? 'Jets are on' : 'Jets are off'}</p>
 	<button on:click={setPointUp}>SetPoint up</button>
 	<button on:click={setPointDown}>SetPoint down</button>
-	<button on:click={operateJets}>Turn jets on</button>
+	<button on:click={operateJets}>Turn jets {data.jets ? 'on' : 'off'}</button>
 </main>
 
 <style>

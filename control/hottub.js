@@ -19,6 +19,8 @@ const runningTime = new Timer();
 const jetTimer = new Timer();
 let setPoint = 78;
 let jets = false;
+let runningTimeBool;
+let jetTimerBool;
 let jetStatus;
 let status;
 
@@ -62,6 +64,39 @@ wss.on('connection', function connection(ws) {
             const curTempF = ( value * (9/5) ) + 32;
             ws.send(JSON.stringify({'currentTemp': curTempF}));
         });
+
+        // Send jets timer data
+        if (jetTimer.isRunning()) {
+            const jetsRunningTime = jetTimer.getTotalTimeValues();
+            const data = {
+                'jetSeconds': `${jetsRunningTime.seconds}`
+            }
+             ws.send(JSON.stringify({data}));
+            jetTimerBool = true;
+        }
+        // Send a zero once the timer stops running
+        if (!jetTimer.isRunning() && jetTimerBool) {
+            const data = {
+                'jetSeconds': '0'
+            }
+             ws.send(JSON.stringify({data}));
+        }
+        // Send jets timer data
+        if (runningTime.isRunning()) {
+            const pumpRunningTime = runningTime.getTotalTimeValues();
+            const data = {
+                'pumpSeconds': `${pumpRunningTime.seconds}`
+            }
+            ws.send(JSON.stringify({data}));
+            pumpTimerBool = true;
+        }
+        // Send a zero once the timer stops running
+        if (!runningTime.isRunning() && runningTimeBool) {
+             const data = {
+                'pumpSeconds': '0'
+            }
+            ws.send(JSON.stringify({data}));
+        }
     }, 250);
 
     // Handle websocket close
