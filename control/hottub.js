@@ -19,6 +19,7 @@ const runningTime = new Timer();
 const jetTimer = new Timer();
 let setPoint = 78;
 let jets = false;
+let jetStatus;
 let status;
 
 // Websocket Connection
@@ -67,10 +68,10 @@ wss.on('connection', function connection(ws) {
       });
 });
 
-// Initialize GPIO pin as low
+// Initialize heater pin
 rpio.open(11, rpio.OUTPUT, rpio.LOW);
+// Initialize jets pin
 rpio.open(12, rpio.OUTPUT, rpio.LOW);
-rpio.write(12, rpio.HIGH);
 
 // monitor temp and turn on and off motor
 const tempLoop = setInterval(manageTemp, 1000);
@@ -79,13 +80,15 @@ function manageTemp() {
     const curTempC = ds18b20.temperatureSync(sensorId);
     const curTempF = ( curTempC * (9/5) ) + 32;
 
-    
     // Check to make sure temp isn't too high & turn off
     if (curTempF > 105) {
         rpio.write(11, rpio.LOW);
+        rpio.write(12, rpio.LOW);
         clearInterval(tempLoop);
         console.log('Tub Emergency Shutdown');
         runningTime.reset();
+        jetTimer.reset();
+        return
     }
     
     // Check if temp is higher than setpoint & turn off
@@ -102,16 +105,22 @@ function manageTemp() {
         runningTime.start();
     }
 
-    if (jets) {
+    // Start jets if they're not on
+    if (jets && !rpio.read(12)) {
+        rpio.write(11, rpio.HIGH);
         jetTimer.start();
     }
 
-    if (jetTimer.minutes < 60 && jets) {
-        jets = true;
+    // Turn off jets if the timer is over 60 mins
+    if (jetTimer.minutes > 60) {
+        rpio.write(12, rpio.LOW);
+        jetTimer.reset();
+        jets = false;
     }
 
-    if (jetTimer.minutes > 60 && jets) {
-        jets = false;
+    if (!jets && rpio.read(12)) {
+        rpio.write(12, rpio.LOW);
+        jetTimer.reset();
     }
 
 }
