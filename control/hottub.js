@@ -161,7 +161,7 @@ function manageTemp() {
         jetTimer.reset();
     }
     console.log('Jet time', jetTimer.getTotalTimeValues().seconds);
-    console.log('Pump time', pumpTimer.getTotalTimeValues().seconds);
+    console.log('Pump time', runningTime.getTotalTimeValues().seconds);
 }
 
 app.listen(port, () => {
