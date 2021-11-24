@@ -30,12 +30,12 @@
 
 		// Assign jets status
 		if (res.jets && res.jets === 'jetsOn') {
-			jets = true;
+			data.jets = true;
 		}
 
 		// Assign jets status
 		if (res.jets && res.jets === 'jetsOff') {
-			jets = false;
+			data.jets = false;
 		}
 
 	};
@@ -51,11 +51,11 @@
 	}
 
 	function operateJets(){
-		if (jets) {
+		if (data.jets) {
 		  exampleSocket.send(JSON.stringify('jetsOff'));
 		}
 
-		if (!jets) {
+		if (!data.jets) {
 		  exampleSocket.send(JSON.stringify('jetsOn'));
 		}
 	}
