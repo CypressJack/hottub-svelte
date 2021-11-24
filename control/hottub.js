@@ -124,8 +124,8 @@ function manageTemp() {
         rpio.write(12, rpio.LOW);
         clearInterval(tempLoop);
         console.log('Tub Emergency Shutdown');
-        runningTime.reset();
-        jetTimer.reset();
+        runningTime.stop();
+        jetTimer.stop();
         return
     }
     
@@ -133,7 +133,7 @@ function manageTemp() {
     if (curTempF > setPoint) {
         rpio.write(11, rpio.LOW);
         status = rpio.read(11);
-        runningTime.reset();
+        runningTime.stop();
     }
     
     // Check if temp is lower than set point & turn on
@@ -152,13 +152,13 @@ function manageTemp() {
     // Turn off jets if the timer is over 60 mins
     if (jetTimer.minutes > 60) {
         rpio.write(12, rpio.LOW);
-        jetTimer.reset();
+        jetTimer.stop();
         jets = false;
     }
 
     if (!jets && rpio.read(12)) {
         rpio.write(12, rpio.LOW);
-        jetTimer.reset();
+        jetTimer.stop();
     }
 }
 
