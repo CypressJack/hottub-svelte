@@ -81,21 +81,21 @@ wss.on('connection', function connection(ws) {
             }
              ws.send(JSON.stringify(data));
         }
-        // Send jets timer data
+        // Send pump timer data
         if (runningTime.isRunning()) {
             const pumpRunningTime = runningTime.getTotalTimeValues();
             const data = {
                 'pumpSeconds': `${pumpRunningTime.seconds}`
             }
-            ws.send(JSON.stringify({data}));
-            pumpTimerBool = true;
+            ws.send(JSON.stringify(data));
+            runningTimeBool = true;
         }
         // Send a zero once the timer stops running
         if (!runningTime.isRunning() && runningTimeBool) {
              const data = {
                 'pumpSeconds': '0'
             }
-            ws.send(JSON.stringify({data}));
+            ws.send(JSON.stringify(data));
         }
     }, 250);
 
